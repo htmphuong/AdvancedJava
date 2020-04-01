@@ -1,0 +1,23 @@
+btnOpen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showOpenDialog(fc);
+		        if (returnVal == JFileChooser.APPROVE_OPTION) {
+		            File file = fc.getSelectedFile();
+		            System.out.println(file.getAbsolutePath()+"/"+file.getName());
+		            try {
+		            	FileInputStream fis = new FileInputStream(file);
+		            	int data = fis.read();
+		            	while(data!=-1) {
+		            		taFile.append(Character.toString((char)data));
+		            		data = fis.read();
+		            	}
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+		            
+		            
+		        }
+			}
+		});
