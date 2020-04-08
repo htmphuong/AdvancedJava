@@ -21,3 +21,52 @@ btnOpen.addActionListener(new ActionListener() {
 		        }
 			}
 		});
+
+
+JButton btnReader = new JButton("OpenReader");
+		btnReader.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fc = new JFileChooser();						
+				//hien thi hop thoai
+				int returnVal = fc.showOpenDialog(null);
+				 if ( returnVal== JFileChooser.APPROVE_OPTION) {
+					 File file = fc.getSelectedFile();
+					 try {
+						 FileReader fr = new FileReader(file);
+						 //su dung luong trung gian (bufferedreader) de doc du lieu
+						 BufferedReader br = new BufferedReader(fr);
+						 String s;
+						 // readLine() Reads a line of text
+						 while( (s= br.readLine())!=null) {
+							 taFile.append(s+"\n");
+						 }
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					 
+				 }
+			}
+			
+		});
+		
+		
+		
+		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					FileOutputStream fos = new FileOutputStream("D:\\IO\\bai1.txt");
+					//ghi du lieu bang fos
+					String chuoi = taFile.getText();
+					for(int i=0;i<chuoi.length();i++) {
+						fos.write((int)chuoi.charAt(i));						
+					}
+					fos.flush();
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}
+		});
