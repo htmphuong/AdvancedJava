@@ -1,0 +1,29 @@
+package GT;
+
+import java.io.DataInputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class GTServer {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		try {
+			//lang nghe ket noi
+			ServerSocket serverSK = new ServerSocket(4501);
+			Socket skServer = serverSK.accept();
+			System.out.println("Connected...");
+			
+			//tao luong de nhan du lieu
+			DataInputStream inputServer = new DataInputStream(skServer.getInputStream());
+			String n = inputServer.readLine();
+			System.out.println("n nhan duoc la "+n);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+	}
+
+}
