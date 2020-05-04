@@ -1,0 +1,58 @@
+package GT;
+
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+
+public class GTClient extends JFrame{
+	JTextField tfSoN =new JTextField(20);
+	JTextField tfKQ = new JTextField(20);
+	JButton btnGt = new JButton("Giai Thua");
+	Container cont;
+	public GTClient() {
+		cont =this.getContentPane();
+		cont.setLayout(new FlowLayout());
+		cont.add(tfSoN);
+		cont.add(tfKQ);
+		cont.add(btnGt);
+		btnGt.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					Socket skClient = new Socket("192.168.2.106", 4501);
+					String n = tfSoN.getText();
+					//gui du lieu di
+					DataOutputStream outClient = new DataOutputStream(skClient.getOutputStream());
+					outClient.writeBytes(n+"\n");
+					outClient.flush();
+					
+					
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		pack();
+		setVisible(true);
+	}	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new GTClient();
+	}
+
+}
