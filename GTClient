@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -36,6 +37,14 @@ public class GTClient extends JFrame{
 					outClient.writeBytes(n+"\n");
 					outClient.flush();
 					
+					//nhan du lieu ve
+					DataInputStream inputClient = new DataInputStream(skClient.getInputStream());
+					String tich =inputClient.readLine();
+					System.out.println("Giai thua la "+tich);
+					tfKQ.setText(tich.toString());
+					outClient.close();
+					inputClient.close();
+					skClient.close();
 					
 				} catch (UnknownHostException e) {
 					// TODO Auto-generated catch block
