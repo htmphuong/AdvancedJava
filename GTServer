@@ -1,6 +1,7 @@
 package GT;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -18,7 +19,17 @@ public class GTServer {
 			DataInputStream inputServer = new DataInputStream(skServer.getInputStream());
 			String n = inputServer.readLine();
 			System.out.println("n nhan duoc la "+n);
+			int so = Integer.parseInt(n);
+			int tich=1;
+			for(int i=2;i<=so;i++) tich=tich*i;
 			
+			// gui du lieu di
+			DataOutputStream outServer =new DataOutputStream(skServer.getOutputStream());
+			outServer.writeBytes(String.valueOf(tich)+"\ns");;
+			outServer.flush();
+			outServer.close();
+			inputServer.close();
+			skServer.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
