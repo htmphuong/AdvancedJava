@@ -1,58 +1,51 @@
-package GT;
+package Chat;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public class ChatServer extends Thread {
-	private ServerSocket serverSK;
+	ServerSocket serverSK;
 	public ChatServer(int port) throws IOException{
-		serverSK = new ServerSocket(port);
+		serverSK = new ServerSocket(9000);
 	}
 	public void run() {
-		 while(true) {
-	         try {
-	            //System.out.println("Waiting for client on port " + 
-	             //  serverSocket.getLocalPort() + "...");
-	            Socket skServer = serverSK.accept();
-	            
-	            System.out.println("Just connected to " + skServer.getRemoteSocketAddress());
-	            //nhan du lieu
-	            DataInputStream inputData = new DataInputStream(skServer.getInputStream());
-	            System.out.println("Client:"+inputData.readUTF());
-	            
-	            //gui dieu di
-	            System.out.println("Server:");
-		        Scanner key = new Scanner(System.in);
-		        String serverChuoi = key.nextLine();
-		        DataOutputStream outputData = new DataOutputStream(skServer.getOutputStream());
-		        outputData.writeUTF(serverChuoi);
-		        inputData.close();
-		        outputData.close();
-	            skServer.close();
-	            
-	             
-	         } catch (SocketTimeoutException s) {
-	            System.out.println("Socket timed out!");
-	            break;
-	         } catch (IOException e) {
-	            e.printStackTrace();
-	            break;
-	         }
-	      }
-	 }
+		try {
+			while(true) {
+				Socket skServer= serverSK.accept();
+				System.out.println("Connecting from:"+skServer.getRemoteSocketAddress());
+				//nhan du lieu
+				DataInputStream inputChuoi = new DataInputStream(skServer.getInputStream());
+				System.out.print("Client:"+inputChuoi.readUTF());
+				
+				//gui du leiu di
+				System.out.print("Server:");
+				DataOutputStream outChuoi = new DataOutputStream(skServer.getOutputStream());
+				Scanner key = new Scanner(System.in);
+				String chuoiGui = key.nextLine();				
+				outChuoi.writeUTF(chuoiGui+"\n");
+				outChuoi.close();
+				skServer.close();
+				
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
-	         Thread t = new ChatServer(6070);
-	         t.start();
-	      } catch (IOException e) {
-	         e.printStackTrace();
-	      }
-		   
+			Thread t = new ChatServer(9000);
+			t.start();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
+
 }
