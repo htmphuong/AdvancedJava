@@ -1,0 +1,40 @@
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.Scanner;
+
+public class ChatClient {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		try {
+			while(true) {
+				System.out.println("Client:");
+				Scanner key = new Scanner(System.in);
+				String chuoi = key.nextLine();
+				//packet
+				byte[] s = chuoi.getBytes();
+				int len = s.length;
+				InetAddress add = InetAddress.getByName("localhost");
+				DatagramPacket pGui = new DatagramPacket(s, len, add, 6000);
+				DatagramSocket skClient = new DatagramSocket(9600);
+				skClient.send(pGui);
+				//nhan du lieu
+				byte[] c = new byte[1024];
+				int lenth = c.length;
+				DatagramPacket pNhan = new DatagramPacket(c, lenth);
+				skClient.receive(pNhan);
+				byte[] str = pNhan.getData();
+				String chuoiNhan = (new String(str,str.length)).trim();
+				System.out.println("Server:"+chuoiNhan);
+				skClient.close();
+			}
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+
+}
