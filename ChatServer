@@ -1,0 +1,42 @@
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.Scanner;
+
+public class ChatServer {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		try {
+			while(true) {
+				DatagramSocket skServer = new DatagramSocket(6000);
+				byte[] chuoi = new byte[1024];
+				int len = chuoi.length;
+				DatagramPacket pNhan = new DatagramPacket(chuoi, len);
+				skServer.receive(pNhan);
+				byte[] s = pNhan.getData();
+				String chuoiNhan = (new String(s,s.length)).trim();
+				System.out.println("Client:"+chuoiNhan);
+				
+				//gui du lieu
+				System.out.println("Server:");
+				Scanner key = new Scanner(System.in);
+				String c = key.nextLine();
+				//packet
+				byte[] str = c.getBytes();
+				int length = str.length;
+				InetAddress address =pNhan.getAddress();
+				int port = pNhan.getPort();
+				DatagramPacket pGui = new DatagramPacket(s, length, address, port);
+				skServer.send(pGui);
+				skServer.close();
+						
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+
+}
